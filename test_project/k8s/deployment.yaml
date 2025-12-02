@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azbankgateways-test
+  labels:
+    app: azbankgateways-test
+spec:
+  replicas: 1  # SQLite فقط از یک pod پشتیبانی می‌کند
+  selector:
+    matchLabels:
+      app: azbankgateways-test
+  template:
+    metadata:
+      labels:
+        app: azbankgateways-test
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret  # Secret برای pull کردن image از ghcr.io
+      containers:
+      - name: web
+        image: ghcr.io/the-mj-01/test-project-web:latest  # آدرس image شما در ghcr.io
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: DEBUG
+          value: "False"
+        - name: ALLOWED_HOSTS
+          value: "*"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azbankgateways-secrets
+              key: secret-key
+        - name: MERCHANT_CODE
+          valueFrom:
+            secretKeyRef:
+              name: azbankgateways-secrets
+              key: merchant-code
+        - name: TERMINAL_CODE
+          valueFrom:
+            secretKeyRef:
+              name: azbankgateways-secrets
+              key: terminal-code
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

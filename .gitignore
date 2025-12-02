@@ -271,3 +271,6 @@ DJANGO_PROJECT
 locale/*
 manage.py
 examples/
+
+
+test_project/k8s/secret.yaml

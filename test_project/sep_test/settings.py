@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,11 +136,12 @@ DEFAULT_PROTOCOL = "http"  # برای تست localhost از http استفاده 
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 # تنظیمات درگاه‌های بانکی
+# خواندن از environment variables (از Kubernetes Secret)
 AZ_IRANIAN_BANK_GATEWAYS = {
     "GATEWAYS": {
         "SEP": {
-            "MERCHANT_CODE": "1755549",  # جایگزین کنید با کد پذیرنده واقعی
-            "TERMINAL_CODE": "15203539",  # جایگزین کنید با کد ترمینال واقعی
+            "MERCHANT_CODE": os.getenv("MERCHANT_CODE", "1755549"),  # از Secret خوانده می‌شود
+            "TERMINAL_CODE": os.getenv("TERMINAL_CODE", "15203539"),  # از Secret خوانده می‌شود
         },
     },
     "IS_SAMPLE_FORM_ENABLE": True,  # فعال کردن فرم نمونه

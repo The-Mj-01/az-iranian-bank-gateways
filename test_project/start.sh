@@ -1,10 +1,12 @@
 #!/bin/bash
 set -e
 
-# نصب مجدد کتابخانه اگر volume mount شده باشد
+# نصب مجدد کتابخانه فقط اگر volume mount شده باشد (برای development)
+# در Kubernetes/production، کتابخانه از قبل در image نصب شده است
 if [ -d "/azbankgateways" ] && [ -f "/azbankgateways/azbankgateways/__init__.py" ]; then
+    echo "Detected volume mount for /azbankgateways, reinstalling library..."
     cd /azbankgateways
-    
+
     # ساخت setup.py اگر وجود نداشته باشد
     if [ ! -f setup.py ]; then
         cat > setup.py << 'PYEOF'
@@ -36,13 +38,11 @@ setup(
 )
 PYEOF
     fi
-    
-    # نصب کتابخانه
-    # ابتدا uninstall می‌کنیم تا مطمئن شویم که نصب تمیز است
-    pip uninstall -y az-iranian-bank-gateways 2>/dev/null || true
-    
-    # استفاده از نصب عادی به جای editable برای اطمینان از کارکرد
-    pip install . --quiet || pip install . --verbose || true
+
+    # نصب کتابخانه (بدون uninstall - چون ممکن است در production باشد)
+    pip install . --quiet --force-reinstall --no-deps || pip install . --verbose || true
+else
+    echo "No volume mount detected, using pre-installed library from image..."
 fi
 
 # بررسی اینکه پکیج قابل import است
@@ -77,4 +77,3 @@ python manage.py migrate --noinput
 
 # اجرای سرور
 exec python manage.py runserver 0.0.0.0:8000
-
