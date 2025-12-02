@@ -41,8 +41,11 @@ RUN touch /azbankgateways/.built-in-image
 # بازگشت به دایرکتوری اصلی
 WORKDIR /app
 
-# کپی فایل‌های پروژه تست
-COPY test_project/ .
+# کپی فایل‌های پروژه تست به صورت explicit
+# این روش مطمئن‌تر است و از کپی نشدن فایل‌های مهم جلوگیری می‌کند
+COPY test_project/manage.py .
+COPY test_project/sep_test ./sep_test
+COPY test_project/test_app ./test_app
 
 # کپی و تنظیم اسکریپت راه‌اندازی
 COPY test_project/start.sh /start.sh
