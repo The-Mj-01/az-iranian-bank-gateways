@@ -35,6 +35,9 @@ COPY test_project/setup_azbankgateways.py /azbankgateways/setup.py
 WORKDIR /azbankgateways
 RUN pip install . --verbose
 
+# ایجاد فایل marker برای تشخیص اینکه این دایرکتوری از build time است
+RUN touch /azbankgateways/.built-in-image
+
 # بازگشت به دایرکتوری اصلی
 WORKDIR /app
 

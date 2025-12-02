@@ -3,7 +3,8 @@ set -e
 
 # نصب مجدد کتابخانه فقط اگر volume mount شده باشد (برای development)
 # در Kubernetes/production، کتابخانه از قبل در image نصب شده است
-if [ -d "/azbankgateways" ] && [ -f "/azbankgateways/azbankgateways/__init__.py" ]; then
+# چک می‌کنیم که آیا فایل marker وجود دارد - اگر نبود یعنی volume mount شده است
+if [ -d "/azbankgateways" ] && [ -f "/azbankgateways/azbankgateways/__init__.py" ] && [ ! -f "/azbankgateways/.built-in-image" ]; then
     echo "Detected volume mount for /azbankgateways, reinstalling library..."
     cd /azbankgateways
 
