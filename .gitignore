@@ -9,6 +9,7 @@ myproject/
 core/
 config/
 manage.py
+!test_project/manage.py  # Allow test_project/manage.py to be tracked
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -271,6 +272,9 @@ DJANGO_PROJECT
 locale/*
 manage.py
 examples/
+
+# Exception: Allow test_project/manage.py to be tracked (needed for Docker build on server)
+!test_project/manage.py
 
 
 test_project/k8s/secret.yaml
