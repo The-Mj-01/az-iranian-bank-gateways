@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: test_project/Dockerfile
+    container_name: sep_test_web
+    ports:
+      - "8001:8000"  # استفاده از پورت 8001 برای جلوگیری از تداخل
+    volumes:
+      # Mount کردن پروژه تست
+      - .:/app
+      # Mount کردن دیتابیس برای نگهداری داده‌ها
+      - ./db.sqlite3:/app/db.sqlite3
+      # Mount کردن پروژه اصلی برای تغییرات زنده
+      # توجه: start.sh کتابخانه را دوباره نصب می‌کند
+      - ../azbankgateways:/azbankgateways
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+

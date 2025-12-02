@@ -23,8 +23,8 @@ class SEP(BaseBank):
             )
 
         self.set_gateway_currency(CurrencyEnum.IRR)
-        self._token_api_url = "https://sep.shaparak.ir/MobilePG/MobilePayment"
-        self._payment_url = "https://sep.shaparak.ir/OnlinePG/OnlinePG"
+        self._token_api_url = "https://sep.shaparak.ir/onlinepg/onlinepg"
+        self._payment_url = "https://sep.shaparak.ir/onlinepg/onlinepg"
         self._verify_api_url = "https://verify.sep.ir/Payments/ReferencePayment.asmx?WSDL"
 
     def get_bank_type(self):
@@ -41,7 +41,7 @@ class SEP(BaseBank):
             "Action": "Token",
             "Amount": self.get_gateway_amount(),
             "Wage": 0,
-            "TerminalId": self._merchant_code,
+            "TerminalId": self._terminal_code,
             "ResNum": self.get_tracking_code(),
             "RedirectURL": self._get_gateway_callback_url(),
             "CellNumber": self.get_mobile_number(),
@@ -108,7 +108,7 @@ class SEP(BaseBank):
 
     def get_verify_data(self):
         super(SEP, self).get_verify_data()
-        data = self.get_reference_number(), self._merchant_code
+        data = self.get_reference_number(), self._terminal_code
         return data
 
     def prepare_verify(self, tracking_code):
@@ -127,7 +127,8 @@ class SEP(BaseBank):
 
     def _send_data(self, api, data):
         try:
-            response = requests.post(api, json=data, timeout=self.get_timeout())
+            # OnlinePG requires form-data instead of JSON
+            response = requests.post(api, data=data, timeout=self.get_timeout())
         except requests.Timeout:
             logging.exception("SEP time out gateway {}".format(data))
             raise BankGatewayConnectionError()

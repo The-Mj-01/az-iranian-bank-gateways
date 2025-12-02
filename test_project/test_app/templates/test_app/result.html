@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتیجه پرداخت</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 5px;
+            border-right: 4px solid #28a745;
+            margin: 20px 0;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 5px;
+            border-right: 4px solid #dc3545;
+            margin: 20px 0;
+        }
+        .info-box {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            color: #333;
+            font-family: monospace;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .status-complete {
+            background: #28a745;
+            color: white;
+        }
+        .status-waiting {
+            background: #ffc107;
+            color: #333;
+        }
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>نتیجه پرداخت</h1>
+        
+        {% if is_success %}
+        <div class="success">
+            <h2>✅ پرداخت با موفقیت انجام شد!</h2>
+            <p>تراکنش شما با موفقیت تایید شد.</p>
+        </div>
+        {% else %}
+        <div class="error">
+            <h2>❌ پرداخت ناموفق</h2>
+            <p>متأسفانه پرداخت شما انجام نشد. در صورت کسر وجه، ظرف 48 ساعت به حساب شما بازخواهد گشت.</p>
+        </div>
+        {% endif %}
+        
+        <div class="info-box">
+            <h3>اطلاعات تراکنش:</h3>
+            
+            <div class="info-row">
+                <span class="label">وضعیت:</span>
+                <span class="value">
+                    {% if status == 'COMPLETE' %}
+                        <span class="status-badge status-complete">تکمیل شده</span>
+                    {% elif status == 'WAITING' %}
+                        <span class="status-badge status-waiting">در انتظار</span>
+                    {% else %}
+                        <span class="status-badge status-error">{{ status }}</span>
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">کد پیگیری:</span>
+                <span class="value">{{ tracking_code }}</span>
+            </div>
+            
+            {% if reference_number %}
+            <div class="info-row">
+                <span class="label">شماره مرجع:</span>
+                <span class="value">{{ reference_number }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="info-row">
+                <span class="label">مبلغ:</span>
+                <span class="value">{{ amount|floatformat:0 }} ریال</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">نوع بانک:</span>
+                <span class="value">{{ bank_record.bank_type }}</span>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="{% url 'test_app:home' %}" class="btn">بازگشت به صفحه اصلی</a>
+        </div>
+    </div>
+</body>
+</html>
+
+

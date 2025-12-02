@@ -1,0 +1,45 @@
+# Dockerfile ساده‌تر - بدون نیاز به کپی پروژه اصلی
+# این نسخه برای زمانی که کتابخانه از PyPI نصب می‌شود
+
+FROM python:3.11-slim
+
+# تنظیم متغیرهای محیطی
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# تنظیم دایرکتوری کاری
+WORKDIR /app
+
+# نصب وابستگی‌های سیستم (در صورت نیاز)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# کپی فایل requirements
+COPY requirements.txt .
+
+# نصب وابستگی‌های Python
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# نصب کتابخانه از PyPI (یا از حالت توسعه)
+# اگر می‌خواهید از حالت توسعه استفاده کنید، این خط را uncomment کنید:
+# COPY ../azbankgateways /azbankgateways
+# COPY ../setup.cfg ../pyproject.toml ../MANIFEST.in /azbankgateways/
+# RUN pip install -e /azbankgateways
+
+# کپی فایل‌های پروژه تست
+COPY . .
+
+# اجرای Migration
+RUN python manage.py migrate --noinput
+
+# اکسپوز کردن پورت
+EXPOSE 8000
+
+# اجرای سرور
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+

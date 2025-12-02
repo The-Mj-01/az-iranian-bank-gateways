@@ -1,0 +1,7 @@
+Django>=3.0
+six
+pycryptodome>=3.9.7
+zeep
+requests
+
+

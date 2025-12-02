@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست درگاه بانک سامان</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-right: 4px solid #3498db;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-right: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تست درگاه پرداخت بانک سامان (SEP)</h1>
+        
+        <div class="info">
+            <h3>📋 راهنمای استفاده:</h3>
+            <ol>
+                <li>ابتدا در فایل <code>settings.py</code> کد پذیرنده و ترمینال خود را وارد کنید</li>
+                <li>سپس روی دکمه زیر کلیک کنید تا به صفحه پرداخت بروید</li>
+                <li>مبلغ و شماره موبایل را وارد کنید</li>
+                <li>به درگاه بانک سامان هدایت می‌شوید</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ توجه:</strong> قبل از استفاده، حتماً کدهای پذیرنده و ترمینال را در فایل 
+            <code>sep_test/settings.py</code> تنظیم کنید.
+        </div>
+
+        <div style="text-align: center;">
+            <a href="{% url 'test_app:go-to-payment' %}" class="btn">شروع تست پرداخت</a>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <h3>🔧 تنظیمات فعلی:</h3>
+            <ul>
+                <li>درگاه: SEP (بانک سامان)</li>
+                <li>واحد پولی: ریال (IRR)</li>
+                <li>روش امن: فعال (IS_SAFE_GET_GATEWAY_PAYMENT: True)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
