@@ -59,3 +59,5 @@ python manage.py runserver
 - بررسی کنید که URL در `sep.py` به `onlinepg/onlinepg` تغییر کرده باشد
 
 
+
+

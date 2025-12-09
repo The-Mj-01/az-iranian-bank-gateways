@@ -130,3 +130,5 @@ class SimpleBank(BaseBank):
 برای جزئیات بیشتر، فایل `DEVELOPMENT_GUIDE.md` را مطالعه کنید.
 
 
+
+
