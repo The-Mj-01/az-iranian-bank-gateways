@@ -42,7 +42,3 @@ echo "2. کدهای MERCHANT_CODE و TERMINAL_CODE را وارد کنید"
 echo "3. سرور را اجرا کنید: python manage.py runserver"
 echo "4. به آدرس http://127.0.0.1:8000/ بروید"
 echo ""
-
-
-
-

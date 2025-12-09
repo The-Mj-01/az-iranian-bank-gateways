@@ -1,5 +1,7 @@
 from django.urls import path
+
 from . import views
+
 
 app_name = 'test_app'
 
@@ -8,7 +10,3 @@ urlpatterns = [
     path('payment/', views.go_to_gateway_view, name='go-to-payment'),
     path('callback/', views.callback_gateway_view, name='callback-gateway'),
 ]
-
-
-
-

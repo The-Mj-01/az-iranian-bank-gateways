@@ -98,7 +98,7 @@
 <body>
     <div class="container">
         <h1>نتیجه پرداخت</h1>
-        
+
         {% if is_success %}
         <div class="success">
             <h2>✅ پرداخت با موفقیت انجام شد!</h2>
@@ -110,10 +110,10 @@
             <p>متأسفانه پرداخت شما انجام نشد. در صورت کسر وجه، ظرف 48 ساعت به حساب شما بازخواهد گشت.</p>
         </div>
         {% endif %}
-        
+
         <div class="info-box">
             <h3>اطلاعات تراکنش:</h3>
-            
+
             <div class="info-row">
                 <span class="label">وضعیت:</span>
                 <span class="value">
@@ -126,37 +126,33 @@
                     {% endif %}
                 </span>
             </div>
-            
+
             <div class="info-row">
                 <span class="label">کد پیگیری:</span>
                 <span class="value">{{ tracking_code }}</span>
             </div>
-            
+
             {% if reference_number %}
             <div class="info-row">
                 <span class="label">شماره مرجع:</span>
                 <span class="value">{{ reference_number }}</span>
             </div>
             {% endif %}
-            
+
             <div class="info-row">
                 <span class="label">مبلغ:</span>
                 <span class="value">{{ amount|floatformat:0 }} ریال</span>
             </div>
-            
+
             <div class="info-row">
                 <span class="label">نوع بانک:</span>
                 <span class="value">{{ bank_record.bank_type }}</span>
             </div>
         </div>
-        
+
         <div style="text-align: center;">
             <a href="{% url 'test_app:home' %}" class="btn">بازگشت به صفحه اصلی</a>
         </div>
     </div>
 </body>
 </html>
-
-
-
-

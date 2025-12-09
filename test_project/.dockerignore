@@ -44,7 +44,3 @@ docker-compose.yml
 
 # Database (برای نگهداری در volume)
 # db.sqlite3
-
-
-
-

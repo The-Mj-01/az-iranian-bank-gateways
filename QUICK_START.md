@@ -71,22 +71,22 @@ from azbankgateways.models import BankType, CurrencyEnum, PaymentStatus
 
 class SimpleBank(BaseBank):
     _merchant_code = None
-    
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.set_gateway_currency(CurrencyEnum.IRR)
         self._payment_url = "https://api.example.com/pay"
         self._verify_url = "https://api.example.com/verify"
         self._gateway_url = "https://gateway.example.com"
-    
+
     def get_bank_type(self):
         return BankType.SIMPLEBANK
-    
+
     def set_default_settings(self):
         if "MERCHANT_CODE" not in self.default_setting_kwargs:
             raise SettingDoesNotExist()
         self._merchant_code = self.default_setting_kwargs["MERCHANT_CODE"]
-    
+
     def get_pay_data(self):
         return {
             "merchant": self._merchant_code,
@@ -94,33 +94,33 @@ class SimpleBank(BaseBank):
             "callback": self._get_gateway_callback_url(),
             "order_id": self.get_tracking_code(),
         }
-    
+
     def pay(self):
         super().pay()
         # ارسال درخواست به API
         # ذخیره reference_number
-    
+
     def get_verify_data(self):
         return {
             "merchant": self._merchant_code,
             "token": self.get_reference_number(),
         }
-    
+
     def verify(self, tracking_code):
         super().verify(tracking_code)
         # تایید پرداخت
         # تنظیم PaymentStatus
-    
+
     def prepare_verify_from_gateway(self):
         super().prepare_verify_from_gateway()
         # خواندن پارامترهای بازگشتی
-    
+
     def _get_gateway_payment_url_parameter(self):
         return f"{self._gateway_url}/{self.get_reference_number()}"
-    
+
     def _get_gateway_payment_parameter(self):
         return {}
-    
+
     def _get_gateway_payment_method_parameter(self):
         return "GET"
 ```
@@ -128,7 +128,3 @@ class SimpleBank(BaseBank):
 ---
 
 برای جزئیات بیشتر، فایل `DEVELOPMENT_GUIDE.md` را مطالعه کنید.
-
-
-
-

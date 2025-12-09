@@ -33,7 +33,3 @@
 ## مراجع
 - Issue #158: https://github.com/ali-zahedi/az-iranian-bank-gateways/issues/158
 - مستندات SEP OnlinePG در پوشه `sep-docs/`
-
-
-
-
